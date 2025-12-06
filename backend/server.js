@@ -1,13 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const fs = require("fs");
 const NeuralNetwork = require("./lib/NeuralNetwork");
 
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
+
+app.use("/api/nn", nnRoutes);
 
 const nn = new NeuralNetwork(784, 64, 10);
 
