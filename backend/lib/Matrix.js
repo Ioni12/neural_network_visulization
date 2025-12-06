@@ -1,0 +1,83 @@
+class Matrix {
+  constructor(rows, cols) {
+    this.rows = rows;
+    this.cols = cols;
+    this.data = Array(rows)
+      .fill()
+      .map(() => Array(cols).fill(0));
+  }
+
+  static fromArray(arr) {
+    return new Matrix(arr.length, 1).map((e, i) => arr[i]);
+  }
+
+  toArray() {
+    let arr = [];
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        arr.push(this.data[i][j]);
+      }
+    }
+    return arr;
+  }
+
+  randomize() {
+    return this.map((e) => Math.random() * 2 - 1);
+  }
+
+  add(n) {
+    if (n instanceof Matrix) {
+      return this.map((e, i, j) => e + n.data[i][j]);
+    } else {
+      return this.map((e) => e + n);
+    }
+  }
+
+  multiply(n) {
+    if (n instanceof Matrix) {
+      return this.map((e, i, j) => e * n.data[i][j]);
+    } else {
+      return this.map((e) => e * n);
+    }
+  }
+
+  static multiply(a, b) {
+    if (a.cols !== b.rows) {
+      console.log("Columns of A must match rows of B.");
+      return;
+    }
+    return new Matrix(a.rows, b.cols).map((e, i, j) => {
+      let sum = 0;
+      for (let k = 0; k < a.cols; k++) {
+        sum += a.data[i][k] * b.data[k][j];
+      }
+      return sum;
+    });
+  }
+
+  // Transpose
+  static transpose(matrix) {
+    return new Matrix(matrix.cols, matrix.rows).map((e, i, j) => {
+      return matrix.data[j][i];
+    });
+  }
+
+  // Apply function to every element
+  map(func) {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        let val = this.data[i][j];
+        this.data[i][j] = func(val, i, j);
+      }
+    }
+    return this;
+  }
+
+  // Print matrix (for debugging)
+  print() {
+    console.table(this.data);
+    return this;
+  }
+}
+
+module.exports = Matrix;
