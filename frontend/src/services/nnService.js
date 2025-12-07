@@ -12,11 +12,6 @@ const api = axios.create({
 export const getState = async () => {
   try {
     const res = await api.get("/state");
-
-    if (!res) {
-      console.log("no data");
-    }
-
     return res.data;
   } catch (error) {
     console.log(error);
@@ -25,7 +20,17 @@ export const getState = async () => {
 
 export const init = async () => {
   try {
-    await api.post("/init");
+    const res = await api.post("/init");
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const trainStep = async (batchSize = 1000) => {
+  try {
+    const res = await api.post("/train-step", { batchSize });
+    return res.data;
   } catch (error) {
     console.log(error);
   }

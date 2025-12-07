@@ -6,4 +6,6 @@ router.post("/init", nnController.initNetwork);
 
 router.get("/state", nnController.getNetworkState);
 
+router.post("/train-step", nnController.trainStep);
+
 module.exports = router;
